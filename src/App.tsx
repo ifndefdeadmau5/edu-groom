@@ -1,68 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import purple from "@material-ui/core/colors/purple";
 import green from "@material-ui/core/colors/green";
 import {
+  createMuiTheme,
   createStyles,
   makeStyles,
-  Theme,
-  createMuiTheme,
+  Paper,
+  Switch,
+  ThemeOptions,
   ThemeProvider,
-} from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+} from "@material-ui/core";
+import Header from "./components/Header";
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: purple[500],
-    },
-    secondary: {
-      main: green[500],
-    },
-  },
-});
-
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
-    root: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
+    paper: {
+      width: "100%",
+      height: "100vh",
     },
   })
 );
 
 function App() {
   const classes = useStyles();
+  const [isDark, setIsDark] = useState(false);
+  const [themeOption, setThemeOption] = useState<ThemeOptions>({
+    palette: {
+      type: "light",
+      primary: {
+        main: purple[500],
+      },
+      secondary: {
+        main: green[500],
+      },
+    },
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsDark(event.target.checked);
+    setThemeOption((prev) => ({
+      ...prev,
+      palette: {
+        ...prev.palette,
+        type: event.target.checked ? "dark" : "light",
+      },
+    }));
+  };
+
+  const theme = createMuiTheme(themeOption);
 
   return (
     <ThemeProvider theme={theme}>
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="menu"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              News
-            </Typography>
-            <Button color="inherit">Login</Button>
-          </Toolbar>
-        </AppBar>
-      </div>
+      <Header>
+        <Switch
+          checked={isDark}
+          onChange={handleChange}
+          name="checkedA"
+          inputProps={{ "aria-label": "secondary checkbox" }}
+        />
+      </Header>
+      <Paper className={classes.paper} />
     </ThemeProvider>
   );
 }
