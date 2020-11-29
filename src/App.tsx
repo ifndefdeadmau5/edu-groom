@@ -11,6 +11,7 @@ import {
   ThemeProvider,
 } from "@material-ui/core";
 import Header from "./components/Header";
+import Products from "./pages/Products";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -59,7 +60,7 @@ function App() {
           inputProps={{ "aria-label": "secondary checkbox" }}
         />
       </Header>
-      <Paper className={classes.paper} />
+      <Products />
     </ThemeProvider>
   );
 }
