@@ -3,9 +3,6 @@ import purple from "@material-ui/core/colors/purple";
 import green from "@material-ui/core/colors/green";
 import {
   createMuiTheme,
-  createStyles,
-  makeStyles,
-  Paper,
   Switch,
   ThemeOptions,
   ThemeProvider,
@@ -13,17 +10,7 @@ import {
 import Header from "./components/Header";
 import Products from "./pages/Products";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    paper: {
-      width: "100%",
-      height: "100vh",
-    },
-  })
-);
-
 function App() {
-  const classes = useStyles();
   const [isDark, setIsDark] = useState(false);
   const [themeOption, setThemeOption] = useState<ThemeOptions>({
     palette: {

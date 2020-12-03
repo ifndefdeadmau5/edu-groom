@@ -6,6 +6,7 @@ import {
   Paper,
 } from "@material-ui/core";
 import React from "react";
+import ProductThumbnail from "../components/ProductThumbnail";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -15,14 +16,20 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
+const products = [...Array(10)].map(() => ({
+  name: "고구마",
+  price: "1000",
+  imgUrl:
+    "https://mblogthumb-phinf.pstatic.net/MjAxNzA5MTFfOTUg/MDAxNTA1MDkwOTQ4Nzkx.d6WmUQbJNVn_AgreyvKeQVnSTLnlzHFJsi4lWdgsTr0g.2BA8M9s7-eZEwkJZ5SJ6uVYD4g3kCAXUuQYOZtw1Uusg.PNG.nong-up/image.png?type=w800",
+}));
 export default function Products() {
   const classes = useStyles();
   return (
     <Container className={classes.root}>
       <Grid container justify="center" spacing={2}>
-        {[0, 1, 2].map((value) => (
-          <Grid key={value} item xs={6} md={4}>
-            <Paper style={{ height: 200 }}>{value}</Paper>
+        {products.map((props) => (
+          <Grid item xs={6} md={4}>
+            <ProductThumbnail {...props} />
           </Grid>
         ))}
       </Grid>
