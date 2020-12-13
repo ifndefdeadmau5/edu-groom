@@ -5,7 +5,9 @@ import {
   makeStyles,
   Paper,
 } from "@material-ui/core";
+import cuid from "cuid";
 import React from "react";
+import { cartItemsVar } from "../cache";
 import ProductThumbnail from "../components/ProductThumbnail";
 
 const useStyles = makeStyles((theme) =>
@@ -29,7 +31,20 @@ export default function Products() {
       <Grid container justify="center" spacing={2}>
         {products.map((props) => (
           <Grid item xs={6} md={4}>
-            <ProductThumbnail {...props} />
+            <ProductThumbnail
+              onClick={() => {
+                const allCartItems = cartItemsVar();
+                cartItemsVar([
+                  ...allCartItems,
+                  {
+                    id: cuid(),
+                    product: { ...props, id: cuid() },
+                    amount: 1,
+                  },
+                ]);
+              }}
+              {...props}
+            />
           </Grid>
         ))}
       </Grid>

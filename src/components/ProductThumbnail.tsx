@@ -14,6 +14,7 @@ import { useCoverCardMediaStyles } from "@mui-treasury/styles/cardMedia/cover";
 
 const useStyles = makeStyles(() => ({
   card: {
+    cursor: "pointer",
     borderRadius: "1rem",
     boxShadow: "none",
     position: "relative",
@@ -42,18 +43,22 @@ interface Props {
   name: string;
   price: string;
   imgUrl: string;
+  onClick:
+    | ((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void)
+    | undefined;
 }
 
 export const ProductThumbnail = React.memo(function GalaxyCard({
   name,
   price,
   imgUrl,
+  onClick,
 }: Props) {
   const mediaStyles = useCoverCardMediaStyles({ bgPosition: "top" });
   const styles = useStyles();
   return (
     <>
-      <Card className={styles.card}>
+      <Card className={styles.card} onClick={onClick}>
         <CardMedia classes={mediaStyles} image={imgUrl} />
         <Box py={3} px={2} className={styles.content}>
           <Info useStyles={useGalaxyInfoStyles}>

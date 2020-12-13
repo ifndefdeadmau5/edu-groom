@@ -5,6 +5,10 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
+import { ShoppingCart } from "@material-ui/icons";
+import { Badge } from "@material-ui/core";
+import { useReactiveVar } from "@apollo/client";
+import { cartItemsVar } from "../cache";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,6 +29,7 @@ interface Props {
 }
 
 export default function Header({ children }: Props) {
+  const cartItems = useReactiveVar(cartItemsVar);
   const classes = useStyles();
 
   return (
@@ -43,6 +48,11 @@ export default function Header({ children }: Props) {
             News
           </Typography>
           {children}
+          <IconButton>
+            <Badge badgeContent={cartItems.length} color="secondary">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>
