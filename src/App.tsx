@@ -3,12 +3,14 @@ import purple from "@material-ui/core/colors/purple";
 import green from "@material-ui/core/colors/green";
 import {
   createMuiTheme,
-  Switch,
+  Switch as MaterialSwitch,
   ThemeOptions,
   ThemeProvider,
 } from "@material-ui/core";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Products from "./pages/Products";
+import Cart from "./pages/Cart";
 
 function App() {
   const [isDark, setIsDark] = useState(false);
@@ -40,14 +42,21 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Header>
-        <Switch
+        <MaterialSwitch
           checked={isDark}
           onChange={handleChange}
           name="checkedA"
           inputProps={{ "aria-label": "secondary checkbox" }}
         />
       </Header>
-      <Products />
+      <Router>
+        <Route exact path="/">
+          <Products />
+        </Route>
+        <Route path="/cart">
+          <Cart />
+        </Route>
+      </Router>
     </ThemeProvider>
   );
 }
