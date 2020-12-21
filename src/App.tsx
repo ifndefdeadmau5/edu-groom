@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import purple from "@material-ui/core/colors/purple";
 import green from "@material-ui/core/colors/green";
 import {
+  Container,
   createMuiTheme,
   Switch as MaterialSwitch,
   ThemeOptions,
@@ -49,14 +50,16 @@ function App() {
           inputProps={{ "aria-label": "secondary checkbox" }}
         />
       </Header>
-      <Router>
-        <Route exact path="/">
-          <Products />
-        </Route>
-        <Route path="/cart">
-          <Cart />
-        </Route>
-      </Router>
+      <Container maxWidth="lg">
+        <Router>
+          <Route exact path="/">
+            <Products />
+          </Route>
+          <Route path="/cart">
+            <Cart />
+          </Route>
+        </Router>
+      </Container>
     </ThemeProvider>
   );
 }
