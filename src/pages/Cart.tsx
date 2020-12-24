@@ -11,6 +11,8 @@ import TableRow from "@material-ui/core/TableRow";
 import IconButton from "@material-ui/core/IconButton";
 import Close from "@material-ui/icons/Close";
 import DailyInteger from "../components/DailyInteger";
+import { useReactiveVar } from "@apollo/client";
+import { cartItemsVar } from "../cache";
 
 const useStyles = makeStyles(({ palette, breakpoints }) => ({
   heading: {
@@ -45,47 +47,11 @@ const useStyles = makeStyles(({ palette, breakpoints }) => ({
   },
 }));
 
-function createData(image, name, descr, size, quantity, totalPrice) {
-  return { image, name, descr, size, quantity, totalPrice };
-}
-
-const rows = [
-  createData(
-    "https://dynamic.zacdn.com/TIqU0jk90hPxnuO44NnNXO4B1AU=/fit-in/346x500/filters:quality(95):fill(ffffff)/http://static.sg.zalora.net/p/fila-4662-609589-1.jpg",
-    "Henry T-Shirt",
-    "White, Screen",
-    "S",
-    2,
-    "$39.98"
-  ),
-  createData(
-    "https://www.hybridoutfitters.com/wp-content/uploads/2019/11/147.jpg",
-    "Stripe Tee",
-    "ocean, stripe",
-    "M",
-    3,
-    "$100"
-  ),
-  createData(
-    "https://gloimg.zafcdn.com/zaful/pdm-product-pic/Clothing/2019/09/18/goods-first-img/1568766431491927776.jpg",
-    "Sweater Hood",
-    "Light Brown, Wool",
-    "S",
-    1,
-    "$39.99"
-  ),
-  createData(
-    "https://l.lnwfile.com/_resize_images/600/600/w1/nh/5z.jpg",
-    "Jackboot",
-    "Brown, Leather",
-    10.5,
-    1,
-    "$69.99"
-  ),
-];
-
 const DailyCart = () => {
   const styles = useStyles();
+
+  const cartItems = useReactiveVar(cartItemsVar);
+
   return (
     <Box pt={{ xs: 2, sm: 4, md: 6 }}>
       <Typography className={styles.heading} variant={"h1"} gutterBottom>
@@ -102,27 +68,26 @@ const DailyCart = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
+            {cartItems.map((row) => (
+              <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   <Box display={"flex"} alignItems={"center"}>
                     <Box width={80} height={80}>
                       <img
                         className={styles.image}
-                        alt={row.name}
-                        src={row.image}
+                        alt={row.product.name}
+                        src={row.product.imgUrl}
                       />
                     </Box>
                     <Box ml={2}>
-                      <p className={styles.name}>{row.name}</p>
-                      <span className={styles.descr}>{row.descr}</span>
+                      <p className={styles.name}>{row.product.name}</p>
                     </Box>
                   </Box>
                 </TableCell>
                 <TableCell>
-                  <DailyInteger>{row.quantity}</DailyInteger>
+                  <DailyInteger>{row.amount}</DailyInteger>
                 </TableCell>
-                <TableCell>{row.totalPrice}</TableCell>
+                <TableCell>{Number(row.product.price) * row.amount}</TableCell>
                 <TableCell>
                   <IconButton>
                     <Close />

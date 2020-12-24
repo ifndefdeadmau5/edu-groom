@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -48,11 +49,13 @@ export default function Header({ children }: Props) {
             News
           </Typography>
           {children}
-          <IconButton>
-            <Badge badgeContent={cartItems.length} color="secondary">
-              <ShoppingCart />
-            </Badge>
-          </IconButton>
+          <Link to="/cart">
+            <IconButton>
+              <Badge badgeContent={cartItems.length} color="secondary">
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>
