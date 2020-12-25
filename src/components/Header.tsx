@@ -45,8 +45,9 @@ export default function Header({ children }: Props) {
           >
             <MenuIcon />
           </IconButton>
+
           <Typography variant="h6" className={classes.title}>
-            News
+            <Link to="/">News</Link>
           </Typography>
           {children}
           <Link to="/cart">

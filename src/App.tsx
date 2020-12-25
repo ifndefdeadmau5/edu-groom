@@ -42,24 +42,31 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        <Header>
-          <MaterialSwitch
-            checked={isDark}
-            onChange={handleChange}
-            name="checkedA"
-            inputProps={{ "aria-label": "secondary checkbox" }}
-          />
-        </Header>
-        <Container maxWidth="lg">
-          <Route exact path="/">
-            <Products />
-          </Route>
-          <Route path="/cart">
-            <Cart />
-          </Route>
-        </Container>
-      </Router>
+      <div
+        style={{
+          background: theme.palette.background.paper,
+          minHeight: "100vh",
+        }}
+      >
+        <Router>
+          <Header>
+            <MaterialSwitch
+              checked={isDark}
+              onChange={handleChange}
+              name="checkedA"
+              inputProps={{ "aria-label": "secondary checkbox" }}
+            />
+          </Header>
+          <Container maxWidth="lg">
+            <Route exact path="/">
+              <Products />
+            </Route>
+            <Route path="/cart">
+              <Cart />
+            </Route>
+          </Container>
+        </Router>
+      </div>
     </ThemeProvider>
   );
 }
