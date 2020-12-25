@@ -103,7 +103,15 @@ const DailyCart = () => {
                 </TableCell>
                 <TableCell>{Number(row.product.price) * row.amount}</TableCell>
                 <TableCell>
-                  <IconButton>
+                  <IconButton
+                    onClick={() => {
+                      cartItemsVar(
+                        cartItems.filter(
+                          ({ product }) => product.id !== row.product.id
+                        )
+                      );
+                    }}
+                  >
                     <Close />
                   </IconButton>
                 </TableCell>
