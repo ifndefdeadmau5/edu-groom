@@ -13,6 +13,7 @@ import Close from "@material-ui/icons/Close";
 import DailyInteger from "../components/DailyInteger";
 import { useReactiveVar } from "@apollo/client";
 import { cartItemsVar } from "../cache";
+import { CartItem } from "../models/cartItems";
 
 const useStyles = makeStyles(({ palette, breakpoints }) => ({
   heading: {
@@ -52,6 +53,19 @@ const DailyCart = () => {
 
   const cartItems = useReactiveVar(cartItemsVar);
 
+  const itemsObj = cartItems.reduce((acc, item) => {
+    const {
+      product: { id },
+    } = item;
+    if (acc[id]) {
+      acc[id].amount += 1;
+    } else {
+      acc[id] = { ...item };
+    }
+
+    return acc;
+  }, {} as Record<string, CartItem>);
+
   return (
     <Box pt={{ xs: 2, sm: 4, md: 6 }}>
       <Typography className={styles.heading} variant={"h1"} gutterBottom>
@@ -68,7 +82,7 @@ const DailyCart = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cartItems.map((row) => (
+            {Object.values(itemsObj).map((row) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   <Box display={"flex"} alignItems={"center"}>

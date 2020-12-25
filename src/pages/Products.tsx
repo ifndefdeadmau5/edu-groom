@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) =>
 );
 
 const products = [...Array(10)].map(() => ({
+  id: "gogoo",
   name: "고구마",
   price: "1000",
   imgUrl:
@@ -38,7 +39,7 @@ export default function Products() {
                   ...allCartItems,
                   {
                     id: cuid(),
-                    product: { ...props, id: cuid() },
+                    product: props,
                     amount: 1,
                   },
                 ]);
