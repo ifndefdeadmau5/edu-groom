@@ -1,9 +1,9 @@
 import { Container, createStyles, Grid, makeStyles } from "@material-ui/core";
 import cuid from "cuid";
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
 import { cartItemsVar } from "../cache";
 import ProductThumbnail from "../components/ProductThumbnail";
+import { useGetProductsQuery } from "../generated/graphql";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -13,20 +13,9 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const GET_PRODUCTS = gql`
-  query GetProducts {
-    products {
-      id
-      name
-      price
-      imgUrl
-    }
-  }
-`;
-
 export default function Products() {
   const classes = useStyles();
-  const { data, loading, error } = useQuery(GET_PRODUCTS);
+  const { data, loading, error } = useGetProductsQuery();
 
   if (loading) return <span>Loading...</span>;
   if (error) return <span>{`Error! ${error.message}`}</span>;
@@ -34,7 +23,7 @@ export default function Products() {
   return (
     <Container className={classes.root}>
       <Grid container justify="center" spacing={2}>
-        {data.products.map((props) => (
+        {data?.products.map((props) => (
           <Grid item xs={6} md={4}>
             <ProductThumbnail
               onClick={() => {
