@@ -6,3 +6,9 @@ query GetProducts {
     imgUrl
   }
 }
+
+mutation AddProduct($name: String, $price: String, $imgUrl: String) {
+  addProduct(name: $name, price: $price, imgUrl: $imgUrl) {
+    id
+  }
+}

@@ -29,6 +29,18 @@ export type Query = {
   products: Array<Product>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  addProduct?: Maybe<Product>;
+};
+
+
+export type MutationAddProductArgs = {
+  name?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['String']>;
+  imgUrl?: Maybe<Scalars['String']>;
+};
+
 export enum CacheControlScope {
   Public = 'PUBLIC',
   Private = 'PRIVATE'
@@ -43,6 +55,21 @@ export type GetProductsQuery = (
   & { products: Array<(
     { __typename?: 'Product' }
     & Pick<Product, 'id' | 'name' | 'price' | 'imgUrl'>
+  )> }
+);
+
+export type AddProductMutationVariables = Exact<{
+  name?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['String']>;
+  imgUrl?: Maybe<Scalars['String']>;
+}>;
+
+
+export type AddProductMutation = (
+  { __typename?: 'Mutation' }
+  & { addProduct?: Maybe<(
+    { __typename?: 'Product' }
+    & Pick<Product, 'id'>
   )> }
 );
 
@@ -82,3 +109,37 @@ export function useGetProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetProductsQueryHookResult = ReturnType<typeof useGetProductsQuery>;
 export type GetProductsLazyQueryHookResult = ReturnType<typeof useGetProductsLazyQuery>;
 export type GetProductsQueryResult = Apollo.QueryResult<GetProductsQuery, GetProductsQueryVariables>;
+export const AddProductDocument = gql`
+    mutation AddProduct($name: String, $price: String, $imgUrl: String) {
+  addProduct(name: $name, price: $price, imgUrl: $imgUrl) {
+    id
+  }
+}
+    `;
+export type AddProductMutationFn = Apollo.MutationFunction<AddProductMutation, AddProductMutationVariables>;
+
+/**
+ * __useAddProductMutation__
+ *
+ * To run a mutation, you first call `useAddProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addProductMutation, { data, loading, error }] = useAddProductMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      price: // value for 'price'
+ *      imgUrl: // value for 'imgUrl'
+ *   },
+ * });
+ */
+export function useAddProductMutation(baseOptions?: Apollo.MutationHookOptions<AddProductMutation, AddProductMutationVariables>) {
+        return Apollo.useMutation<AddProductMutation, AddProductMutationVariables>(AddProductDocument, baseOptions);
+      }
+export type AddProductMutationHookResult = ReturnType<typeof useAddProductMutation>;
+export type AddProductMutationResult = Apollo.MutationResult<AddProductMutation>;
+export type AddProductMutationOptions = Apollo.BaseMutationOptions<AddProductMutation, AddProductMutationVariables>;
