@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Container,
   createStyles,
@@ -21,6 +22,7 @@ import {
   useGetProductsQuery,
   useAddProductMutation,
 } from "../generated/graphql";
+import ProductList from "./ProductList";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -38,6 +40,8 @@ const useStyles = makeStyles((theme) =>
 export default function Products() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [searchDraft, setSearchDraft] = React.useState("");
+  const [search, setSearch] = React.useState("");
   const [form, setForm] = React.useState({ name: "", price: "", imgUrl: "" });
   const { name, price, imgUrl } = form;
   const { data, loading, error } = useGetProductsQuery();
@@ -71,26 +75,18 @@ export default function Products() {
 
   return (
     <Container className={classes.root}>
-      <Grid container justify="center" spacing={2}>
-        {data?.products.map((props) => (
-          <Grid item xs={6} md={4}>
-            <ProductThumbnail
-              onClick={() => {
-                const allCartItems = cartItemsVar();
-                cartItemsVar([
-                  ...allCartItems,
-                  {
-                    id: cuid(),
-                    product: props,
-                    amount: 1,
-                  },
-                ]);
-              }}
-              {...props}
-            />
-          </Grid>
-        ))}
-      </Grid>
+      <Box display="flex" justifyContent="center" mb={4}>
+        <TextField
+          variant="outlined"
+          label="상품명으로 검색"
+          value={searchDraft}
+          onChange={(e) => setSearchDraft(e.target.value)}
+        />
+        <Button onClick={() => setSearch(searchDraft)} variant="contained">
+          조회
+        </Button>
+      </Box>
+      <ProductList products={data?.products} search={search} />
       <Dialog
         open={open}
         onClose={handleClose}
